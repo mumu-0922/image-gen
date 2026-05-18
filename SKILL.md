@@ -19,7 +19,7 @@ Do not call the third-party `gpt-image` CLI. Do not edit `.system/imagegen` file
 
 ## Gallery Workflow
 
-Read `references/gallery-index.md` to choose 1-3 categories, then read `references/craft-summary.md` for prompt craft. If a concrete category file is needed and is not mirrored locally, fetch the raw URL listed in the index or ask for network setup.
+Read `references/gallery-index.md` to choose 1-3 categories, then read the matching local `references/gallery-*.md` files and `references/craft-summary.md`. The `gallery-*.md` files are mirrored locally for offline use; use the raw URLs in the index only to refresh or repair missing files.
 
 Borrow structure, not subject:
 
@@ -131,7 +131,12 @@ For generation work, report:
 ## Resources
 
 - `references/gallery-index.md`: upstream GPT Image 2 gallery category map and raw URLs.
+- `references/gallery-*.md`: offline prompt gallery category files.
 - `references/craft-summary.md`: compact prompt-craft rules.
 - `references/batch-sample.jsonl`: batch format smoke-test sample.
 - `references/relay-test.jsonl`: one-image live smoke test for relay API execution.
 - `scripts/run-with-codex-auth.ps1`: runs the local image CLI using Codex `config.toml` base URL and `auth.json` API key without printing secrets.
+
+## Attribution
+
+The offline `references/gallery-*.md` prompt gallery files are mirrored from `wuyoscar/gpt_image_2_skill`. Preserve the bundled upstream license file when publishing or redistributing this skill.
