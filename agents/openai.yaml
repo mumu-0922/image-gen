@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image Gen"
+  short_description: "Unified image prompts and batches"
+  default_prompt: "Use $image-gen to plan, prompt, generate, edit, or batch image assets."
