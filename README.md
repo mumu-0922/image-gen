@@ -8,7 +8,7 @@ Unified Codex skill for image generation workflows.
 - offline GPT Image 2 prompt-gallery lookup through bundled `references/gallery-*.md`
 - explicit local CLI batch generation through `image_gen.py generate-batch`
 
-The skill is designed for Codex on Windows, but the prompt gallery and JSONL batch format are portable.
+The skill is designed for Codex on Windows and WSL/Linux. The prompt gallery and JSONL batch format are portable.
 
 ## What Is Included
 
@@ -23,6 +23,9 @@ references/
   relay-test.jsonl
 scripts/
   run-with-codex-auth.ps1
+  run-with-codex-auth.sh
+  imagegen_batch_helper.py
+  imagegen_with_timeout.py
 LICENSE.upstream-gpt-image-2-skill
 ```
 
@@ -89,10 +92,11 @@ python "$env:USERPROFILE\.codex\skills\.system\imagegen\scripts\image_gen.py" ge
 
 ## Reuse Codex Relay API
 
-If your Codex config already has a custom model provider and API key, use:
+If your Codex config already has a custom model provider and API key, use the Codex-auth wrapper.
+
+Windows:
 
 ```powershell
-$env:IMAGE_GEN_PYTHON='D:\yxk\test\.venv-image-gen-test\Scripts\python.exe'
 powershell -ExecutionPolicy Bypass -File .\scripts\run-with-codex-auth.ps1 generate-batch `
   --input .\references\relay-test.jsonl `
   --out-dir .\output\imagegen-relay-test `
@@ -100,14 +104,21 @@ powershell -ExecutionPolicy Bypass -File .\scripts\run-with-codex-auth.ps1 gener
   --max-attempts 1
 ```
 
-The wrapper reads:
+WSL/Linux:
 
-```text
-%USERPROFILE%\.codex\config.toml
-%USERPROFILE%\.codex\auth.json
+```bash
+./scripts/run-with-codex-auth.sh generate-batch \
+  --input ./references/relay-test.jsonl \
+  --out-dir ./output/imagegen-relay-test \
+  --concurrency 1 \
+  --max-attempts 1
 ```
 
-It prints the base URL and only reports the API key as `<set>`.
+The wrappers read Codex config/auth, print the base URL, and only report the API key as `<set>`.
+
+## Transparent Assets
+
+`gpt-image-2` and many OpenAI-compatible relays do not support direct transparent PNG output. For transparent sprites, buttons, logos, and title art, generate on a flat chroma-key background first, then remove the key locally and validate the alpha PNG. Do not send `background: "transparent"` to `gpt-image-2` jobs.
 
 ## Notes
 
